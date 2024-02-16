@@ -5,7 +5,7 @@
 Version can be found in the POM file.
 
 Selenium - Web automation
-Cucumber - Cucumber integrationo with Junit and Selenium
+Cucumber - Cucumber integration with JUnit and Selenium
 Maven - Build and package management
 Junit - Test execution and Reporting
 
