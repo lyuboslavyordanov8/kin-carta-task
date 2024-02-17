@@ -28,8 +28,13 @@ public class BrokersStepDefinition {
         brokersPage.expandBrokersList();
     }
 
-    @Then("the search results on the result page must contain the correct information")
+    @Then("verify that each of the brokers on the page can be found through the search engine")
     public void theUserSearchForEachBrokerInTheSearchEngine() {
         brokersPage.searchForEachBrokerInTheSearchEngine();
+    }
+
+    @Then("verify the search results display accurate information on the broker card, confirming it is the only broker listed")
+    public void verifyTheSearchResultsDisplayAccurateInformationOnTheBrokerCardConfirmingItIsTheOnlyBrokerListed() {
+        brokersPage.searchForEachBrokerInTheSearchEngineAndVerifyInfoIsDisplayed();
     }
 }

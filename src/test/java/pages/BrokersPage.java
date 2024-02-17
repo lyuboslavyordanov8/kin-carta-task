@@ -11,12 +11,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.BaseDriverClass;
+
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class BrokersPage extends BaseDriverClass {
     private static final Logger logger = LogManager.getLogger(BrokersPage.class);
-    @FindBy(css = "div.broker-list-holder.xteam-list-wrap")
+    @FindBy(css = "div.broker-list-holder.xteam-list-wrap[data-total-count]")
     private List<WebElement> brokersList;
 
     @FindBy(css = "div[class*='load-more-brokers']")
@@ -34,7 +38,7 @@ public class BrokersPage extends BaseDriverClass {
     @FindBy(css = "input#searchBox[data-container=broker-keyword]")
     private WebElement searchInput;
 
-    @FindBy (css = (("button[type='button'].clear-all-dropdowns.clear-btn")))
+    @FindBy(css = (("button[type='button'].clear-all-dropdowns.clear-btn")))
     private WebElement clearButton;
 
     public BrokersPage(WebDriver driver, WebDriverWait wait) {
@@ -49,7 +53,7 @@ public class BrokersPage extends BaseDriverClass {
 
     public void verifyBrokerPageIsOpened() {
         waitUntilElementVisible(brokerCard);
-        Assert.assertTrue("Broker page is not opened",brokerCard.isDisplayed());
+        assertTrue("Broker page is not opened", brokerCard.isDisplayed());
     }
 
     public void handleCookieAlert() {
@@ -60,8 +64,44 @@ public class BrokersPage extends BaseDriverClass {
         }
     }
 
-    public void searchForEachBrokerInTheSearchEngine() {
+    public void searchForEachBrokerInTheSearchEngineAndVerifyInfoIsDisplayed() {
+        for (int i = 0; i < brokerNames.size(); i++) {
+            String name = brokerNames.get(i).getText();
 
+            searchInput.clear();
+            searchInput.sendKeys(name);
+
+            waitForAttributeValueToBePresentInElementLocated(
+                    By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
+                    "data-total-count",
+                    "1",
+                    10
+            );
+
+            int numberOfBrokersOnSearchResult = brokerNames.size();
+            assertEquals("Unexpected number of brokers found for: " + name, 1, numberOfBrokersOnSearchResult);
+
+            WebElement propertiesCount = brokerCard.findElement(By.cssSelector("div.position"));
+            WebElement officeAddress = brokerCard.findElement(By.cssSelector("div.office"));
+            WebElement telGroup = brokerCard.findElement(By.cssSelector("div.tel-group"));
+            java.util.List<WebElement> telNumbers = telGroup.findElements(By.cssSelector("span.tel"));
+
+            assertEquals("Unexpected number of phone numbers found for: " + name, 2, telNumbers.size());
+            assertTrue("Broker name is not displayed for: " + name, brokerCard.isDisplayed());
+            assertTrue("Office address is not displayed for: " + name, officeAddress.isDisplayed());
+            assertTrue("Properties count is not displayed for: " + name, propertiesCount.isDisplayed());
+
+            clearButton.click();
+            waitForAttributeValueToBePresentInElementLocated(
+                    By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
+                    "data-total-count",
+                    "118",
+                    10
+            );
+        }
+    }
+
+    public void searchForEachBrokerInTheSearchEngine() {
         for (int i = 0; i < brokerNames.size(); i++) {
 
             String name = brokerNames.get(i).getText();
