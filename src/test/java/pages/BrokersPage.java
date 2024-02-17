@@ -1,5 +1,7 @@
 package pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -11,9 +13,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.BaseDriverClass;
 import java.util.List;
 
+
 public class BrokersPage extends BaseDriverClass {
-
-
+    private static final Logger logger = LogManager.getLogger(BrokersPage.class);
     @FindBy(css = "div.broker-list-holder.xteam-list-wrap")
     private List<WebElement> brokersList;
 
@@ -54,7 +56,7 @@ public class BrokersPage extends BaseDriverClass {
         try {
             cookiesAlertAcceptButton.click();
         } catch (NoSuchElementException e) {
-            System.out.println("Cookie alert not found or not visible.");
+            logger.info("Cookie alert not found or not visible.");
         }
     }
 
@@ -80,23 +82,23 @@ public class BrokersPage extends BaseDriverClass {
 
                 java.util.List<WebElement> telNumbers = telGroup.findElements(By.cssSelector("span.tel"));
 
-                System.out.println("Broker Name: " + name);
-                System.out.println("Office Address: " + officeAddress.getText());
+                logger.info("Broker Name: " + name);
+                logger.info("Office Address: " + officeAddress.getText());
 
                 if (telNumbers.size() > 0) {
-                    System.out.println("Landline Number: " + telNumbers.get(0).getText());
+                    logger.info("Landline Number: " + telNumbers.get(0).getText());
                 }
 
                 if (telNumbers.size() > 1) {
-                    System.out.println("Mobile Number: " + telNumbers.get(1).getText());
+                    logger.info("Mobile Number: " + telNumbers.get(1).getText());
                 } else {
-                    System.out.println("Mobile Number: N/A");
+                    logger.info("Mobile Number: N/A");
                 }
 
                  WebElement propertiesCount = brokerCard.findElement(By.cssSelector("div.position"));
-                 System.out.println("Properties Count: " + propertiesCount.getText());
+                logger.info("Properties Count: " + propertiesCount.getText());
             } else {
-                System.out.println("No search result or multiple results found for broker: " + name);
+                logger.info("No search result or multiple results found for broker: " + name);
             }
             clearButton.click();
             waitForAttributeValueToBePresentInElementLocated(

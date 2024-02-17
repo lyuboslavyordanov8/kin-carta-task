@@ -25,7 +25,6 @@ public class BrokersStepDefinition {
 
     @When("the user expand the brokers list")
     public void theUserExpandTheBrokerList() {
-        brokersPage.handleCookieAlert();
         brokersPage.expandBrokersList();
     }
 
