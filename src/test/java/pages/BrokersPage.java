@@ -94,7 +94,7 @@ public class BrokersPage extends BaseDriverClass {
             waitForAttributeValueToBePresentInElementLocated(
                     By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
                     "data-total-count",
-                    "118",
+                    "117",
                     10
             );
         }
@@ -143,7 +143,7 @@ public class BrokersPage extends BaseDriverClass {
             waitForAttributeValueToBePresentInElementLocated(
                     By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
                     "data-total-count",
-                    "118",
+                    "117",
                     10
             );
         }
