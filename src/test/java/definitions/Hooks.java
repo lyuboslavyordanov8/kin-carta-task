@@ -21,6 +21,7 @@ public class Hooks {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=1440,768", "--disable-gpu");
         driver = new ChromeDriver(options);
+        WebDriverManager.chromedriver ().clearDriverCache ();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
         driver.manage().deleteAllCookies();
