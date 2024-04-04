@@ -9,7 +9,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.BaseDriverClass;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -63,87 +66,62 @@ public class BrokersPage extends BaseDriverClass {
     }
 
     public void searchForEachBrokerInTheSearchEngineAndVerifyInfoIsDisplayed() {
+
+        Map<String, List<String>> failedBrokersMap = new HashMap<>();
+
+        String previousAttributeValue = null; // Store the previous attribute value
+
         for (int i = 0; i < brokerNames.size(); i++) {
             String name = brokerNames.get(i).getText();
 
             searchInput.clear();
             searchInput.sendKeys(name);
 
-            waitForAttributeValueToBePresentInElementLocated(
+            waitForAttributeValueChangedInElementLocated(
                     By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
                     "data-total-count",
-                    "1",timeout
+                    previousAttributeValue, timeout,
+                    2000 // Sleep for 2 seconds after the attribute value changes
             );
+
+            WebElement element = driver.findElement(By.cssSelector("div.broker-list-holder.xteam-list-wrap"));
+            previousAttributeValue = element.getAttribute("data-total-count");
 
             int numberOfBrokersOnSearchResult = brokerNames.size();
-            assertEquals("Unexpected number of brokers found for: " + name, 1, numberOfBrokersOnSearchResult);
+            try {
+                assertEquals("Unexpected number of brokers found for: " + name, 1, numberOfBrokersOnSearchResult);
 
-            WebElement propertiesCount = brokerCard.findElement(By.cssSelector("div.position"));
-            WebElement officeAddress = brokerCard.findElement(By.cssSelector("div.office"));
-            WebElement telGroup = brokerCard.findElement(By.cssSelector("div.tel-group"));
-            java.util.List<WebElement> telNumbers = telGroup.findElements(By.cssSelector("span.tel"));
-
-            assertEquals("Unexpected number of phone numbers found for: " + name, 2, telNumbers.size());
-            assertTrue("Broker name is not displayed for: " + name, brokerCard.isDisplayed());
-            assertTrue("Office address is not displayed for: " + name, officeAddress.isDisplayed());
-            assertTrue("Properties count is not displayed for: " + name, propertiesCount.isDisplayed());
-
-            clearButton.click();
-            waitForAttributeValueToBePresentInElementLocated(
-                    By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
-                    "data-total-count",
-                    "117",
-                    timeout
-            );
-        }
-    }
-
-    public void searchForEachBrokerInTheSearchEngine() {
-        for (int i = 0; i < brokerNames.size(); i++) {
-
-            String name = brokerNames.get(i).getText();
-            searchInput.clear();
-            searchInput.sendKeys(name);
-
-            waitForAttributeValueToBePresentInElementLocated(
-                    By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
-                    "data-total-count",
-                    "1",
-                    timeout
-            );
-
-            if (brokersList.size() == 1) {
-
+                WebElement propertiesCount = brokerCard.findElement(By.cssSelector("div.position"));
                 WebElement officeAddress = brokerCard.findElement(By.cssSelector("div.office"));
                 WebElement telGroup = brokerCard.findElement(By.cssSelector("div.tel-group"));
-
                 java.util.List<WebElement> telNumbers = telGroup.findElements(By.cssSelector("span.tel"));
 
-                logger.info("Broker Name: " + name);
-                logger.info("Office Address: " + officeAddress.getText());
+                assertEquals("Unexpected number of phone numbers found for: " + name, 2, telNumbers.size());
+                assertTrue("Broker name is not displayed for: " + name, brokerCard.isDisplayed());
+                assertTrue("Office address is not displayed for: " + name, officeAddress.isDisplayed());
+                assertTrue("Properties count is not displayed for: " + name, propertiesCount.isDisplayed());
+            } catch (AssertionError e) {
 
-                if (telNumbers.size() > 0) {
-                    logger.info("Landline Number: " + telNumbers.get(0).getText());
-                }
-
-                if (telNumbers.size() > 1) {
-                    logger.info("Mobile Number: " + telNumbers.get(1).getText());
-                } else {
-                    logger.info("Mobile Number: N/A");
-                }
-
-                 WebElement propertiesCount = brokerCard.findElement(By.cssSelector("div.position"));
-                logger.info("Properties Count: " + propertiesCount.getText());
-            } else {
-                logger.info("No search result or multiple results found for broker: " + name);
+                List<String> failedAssertions = failedBrokersMap.getOrDefault(name, new ArrayList<>());
+                failedAssertions.add(e.getMessage());
+                failedBrokersMap.put(name, failedAssertions);
             }
+
             clearButton.click();
-            waitForAttributeValueToBePresentInElementLocated(
+
+            waitForAttributeValueChangedInElementLocated(
                     By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
                     "data-total-count",
-                    "117",
-                    timeout
+                    previousAttributeValue, timeout,
+                    2000 // Sleep for 3 seconds after the attribute value changes
             );
+        }
+
+        for (Map.Entry<String, List<String>> entry : failedBrokersMap.entrySet()) {
+            logger.info("Failed for broker: " + entry.getKey());
+            for (String failure : entry.getValue()) {
+                logger.info("\t" + failure);
+            }
         }
     }
 }

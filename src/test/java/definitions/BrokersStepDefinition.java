@@ -11,15 +11,15 @@ public class BrokersStepDefinition {
 
     Context context;
     BrokersPage brokersPage;
-        public BrokersStepDefinition(Context context)
-        {
-            this.context = context;
-            brokersPage = context.getBrokersPage();
-        }
+
+    public BrokersStepDefinition(Context context) {
+        this.context = context;
+        brokersPage = context.getBrokersPage();
+    }
 
     @Given("the broker page info is opened")
     public void theBrokerWebsiteIsOpened() {
-       brokersPage.handleCookieAlert();
+        brokersPage.handleCookieAlert();
         brokersPage.verifyBrokerPageIsOpened();
     }
 
@@ -28,10 +28,6 @@ public class BrokersStepDefinition {
         brokersPage.expandBrokersList();
     }
 
-    @Then("verify that each of the brokers on the page can be found through the search engine")
-    public void theUserSearchForEachBrokerInTheSearchEngine() {
-        brokersPage.searchForEachBrokerInTheSearchEngine();
-    }
 
     @Then("verify the search results display accurate information on the broker card, confirming it is the only broker listed")
     public void verifyTheSearchResultsDisplayAccurateInformationOnTheBrokerCardConfirmingItIsTheOnlyBrokerListed() {

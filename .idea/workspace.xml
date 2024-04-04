@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f93483f-c134-4035-b0f3-76e718c4090d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/utils/Context.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/definitions/BrokersStepDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/definitions/BrokersStepDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/definitions/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/definitions/Hooks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/pages/BrokersPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pages/BrokersPage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/utils/BaseDriverClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/utils/BaseDriverClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/broker_searchability_and_card_accuracy_validation.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/broker_searchability_and_card_accuracy_validation.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +39,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Cucumber Java.Scenario: Verify accurate information on each broker card in search result.executor": "Run",
     "Cucumber Java.Scenario: Verify search engine successfully locates each broker on the page.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -55,7 +48,27 @@
     "settings.editor.selected.configurable": "terminal"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Cucumber Java.Scenario: Verify accurate information on each broker card in search result">
+    <configuration name="Scenario: Verify accurate information on each broker card in search result" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/broker_searchability_and_card_accuracy_validation.feature" />
+      <option name="GLUE" value="definitions" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="kin-and-carta-task" />
+      <option name="NAME_FILTER" value="^Verify accurate information on each broker card in search result$" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^Verify accurate information on each broker card in search result$&quot;" />
+      <option name="SUGGESTED_NAME" value="Scenario: Verify accurate information on each broker card in search result" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Scenario: Verify search engine successfully locates each broker on the page" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
       <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/broker_searchability_and_card_accuracy_validation.feature" />
@@ -91,6 +104,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cucumber Java.Scenario: Verify accurate information on each broker card in search result" />
         <item itemvalue="Cucumber Java.Scenario: Verify search engine successfully locates each broker on the page" />
       </list>
     </recent_temporary>
@@ -98,7 +112,6 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-19.0.2-corretto-19.0.2-4caba194b151-48ba4555" />
         <option value="jdk-22-openjdk-22-3183f394aec4-bad0321e" />
       </set>
     </attachedChunks>

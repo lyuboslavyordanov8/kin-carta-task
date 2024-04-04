@@ -12,8 +12,5 @@ Feature: Broker searchability and card accuracy validation
     Given the broker page info is opened
     And the user expand the brokers list
 
-  Scenario: Verify search engine successfully locates each broker on the page
-    Then verify that each of the brokers on the page can be found through the search engine
-
   Scenario: Verify accurate information on each broker card in search result
     Then verify the search results display accurate information on the broker card, confirming it is the only broker listed

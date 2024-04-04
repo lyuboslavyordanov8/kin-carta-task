@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class BaseDriverClass {
-	private static WebDriver driver;
+    public WebDriver driver;
     private static WebDriverWait wait;
     private static final Logger logger = LogManager.getLogger(BaseDriverClass.class);
 
@@ -26,20 +26,25 @@ public class BaseDriverClass {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    protected boolean waitForAttributeValueToBePresentInElementLocated(
-            By locator, String attributeName, String expectedValue, Duration timeout) {
+    protected boolean waitForAttributeValueChangedInElementLocated(
+            By locator, String attributeName, String previousValue, Duration timeout, long sleepDuration) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, timeout);
 
             return wait.until((ExpectedCondition<Boolean>) webDriver -> {
                 WebElement element = webDriver.findElement(locator);
                 String actualValue = element.getAttribute(attributeName);
-                return actualValue != null && actualValue.equals(expectedValue);
+                return actualValue != null && !actualValue.equals(previousValue) && !actualValue.isEmpty();
             });
         } catch (TimeoutException e) {
-            logger.info("Timeout waiting for attribute value.");
+            logger.info("Timeout waiting for attribute value to change.");
             return false;
+        } finally {
+            try {
+                Thread.sleep(sleepDuration); // Add sleep period after attribute value changes
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 }
