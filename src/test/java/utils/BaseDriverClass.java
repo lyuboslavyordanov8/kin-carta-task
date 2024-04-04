@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class BaseDriverClass {
 	private static WebDriver driver;
     private static WebDriverWait wait;
@@ -25,9 +27,9 @@ public class BaseDriverClass {
     }
 
     protected boolean waitForAttributeValueToBePresentInElementLocated(
-            By locator, String attributeName, String expectedValue, int timeoutInSeconds) {
+            By locator, String attributeName, String expectedValue, Duration timeout) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+            WebDriverWait wait = new WebDriverWait(driver, timeout);
 
             return wait.until((ExpectedCondition<Boolean>) webDriver -> {
                 WebElement element = webDriver.findElement(locator);

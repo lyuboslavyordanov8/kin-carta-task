@@ -16,7 +16,6 @@ public class Hooks {
 
     @Before
     public void openBrowser() throws Exception {
-
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=1440,768", "--disable-gpu");
@@ -31,15 +30,6 @@ public class Hooks {
 
     @After
     public void embedScreenshot(Scenario scenario) {
-
-//        if(scenario.isFailed()) {
-//            try {
-//                byte[] screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
-//                scenario.embed(screenshot, "image/png");
-//            } catch (WebDriverException noSupportScreenshot) {
-//                System.err.println(noSupportScreenshot.getMessage());
-//            }
-//        }
         driver.quit();
     }
 }

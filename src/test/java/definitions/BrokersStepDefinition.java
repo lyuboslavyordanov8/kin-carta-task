@@ -3,23 +3,23 @@ package definitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BrokersPage;
+import utils.Context;
 
-import static definitions.Hooks.driver;
 
 public class BrokersStepDefinition {
-    private BrokersPage brokersPage;
-    private WebDriverWait wait;
 
-    public BrokersStepDefinition() throws Exception {
-        wait = new WebDriverWait(driver, 5);
-        brokersPage = new BrokersPage(driver, wait);
-    }
+    Context context;
+    BrokersPage brokersPage;
+        public BrokersStepDefinition(Context context)
+        {
+            this.context = context;
+            brokersPage = context.getBrokersPage();
+        }
 
     @Given("the broker page info is opened")
     public void theBrokerWebsiteIsOpened() {
-        brokersPage.handleCookieAlert();
+       brokersPage.handleCookieAlert();
         brokersPage.verifyBrokerPageIsOpened();
     }
 
