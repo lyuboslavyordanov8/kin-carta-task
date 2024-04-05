@@ -20,25 +20,25 @@ import static org.junit.Assert.assertTrue;
 
 public class BrokersPage extends BaseDriverClass {
     private static final Logger logger = LogManager.getLogger(BrokersPage.class);
-    @FindBy(css = "div.broker-list-holder.xteam-list-wrap[data-total-count]")
-    private List<WebElement> brokersList;
+    @FindBy(css = "div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-1.MuiGrid-grid-sm-1.MuiGrid-grid-md-1.MuiGrid-grid-tablet-1.MuiGrid-grid-lg-1.MuiGrid-grid-xl-1.mui-style-rstqa8")
+    private List<WebElement> brokerList;
 
-    @FindBy(css = "div[class*='load-more-brokers']")
-    private WebElement loadMoreBrokersButton;
+    @FindBy(css = "button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textDarkBlue.MuiButton-sizeMedium.MuiButton-textSizeMedium.mui-style-mc33y5")
+    private WebElement expandDetails;
 
     @FindBy(css = "[class='hide-cookies-message green-btn']")
     private WebElement cookiesAlertAcceptButton;
 
-    @FindBy(css = "h3.name")
+    @FindBy(css = ".MuiTypography-root.MuiTypography-h6.mui-style-crk47i")
     private List<WebElement> brokerNames;
 
-    @FindBy(css = "article.broker-card")
+    @FindBy(css = "div.MuiCardContent-root.mui-style-q8glis")
     private WebElement brokerCard;
 
-    @FindBy(css = "input#searchBox[data-container=broker-keyword]")
+    @FindBy(id = "broker-keyword")
     private WebElement searchInput;
 
-    @FindBy(css = (("button[type='button'].clear-all-dropdowns.clear-btn")))
+    @FindBy(css = "button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textDarkGray.MuiButton-sizeMedium.MuiButton-textSizeMedium.mui-style-1550dmo")
     private WebElement clearButton;
     Duration timeout = Duration.ofSeconds(5);
 
@@ -47,10 +47,15 @@ public class BrokersPage extends BaseDriverClass {
         PageFactory.initElements(driver, this);
     }
 
-    public void expandBrokersList() {
-        waitUntilElementVisible(loadMoreBrokersButton);
-        loadMoreBrokersButton.click();
+    public void scrollToBottomOfBrokersList(WebDriver driver) {
+
+        WebElement lastBroker = brokerList.get(brokerList.size() - 1);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        js.executeScript("arguments[0].scrollIntoView(true);", lastBroker);
     }
+
 
     public void verifyBrokerPageIsOpened() {
         waitUntilElementVisible(brokerCard);
@@ -66,42 +71,42 @@ public class BrokersPage extends BaseDriverClass {
     }
 
     public void searchForEachBrokerInTheSearchEngineAndVerifyInfoIsDisplayed() {
-
         Map<String, List<String>> failedBrokersMap = new HashMap<>();
-
         String previousAttributeValue = null; // Store the previous attribute value
 
         for (int i = 0; i < brokerNames.size(); i++) {
             String name = brokerNames.get(i).getText();
-
+            scrollToBottomOfBrokersList(driver);
             searchInput.clear();
             searchInput.sendKeys(name);
 
             waitForAttributeValueChangedInElementLocated(
-                    By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
-                    "data-total-count",
-                    previousAttributeValue, timeout,
-                    2000 // Sleep for 2 seconds after the attribute value changes
+                    driver,
+                    By.cssSelector("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-1.MuiGrid-grid-sm-1.MuiGrid-grid-md-1.MuiGrid-grid-tablet-1.MuiGrid-grid-lg-1.MuiGrid-grid-xl-1.mui-style-rstqa8"),
+                    "class",
+                    previousAttributeValue,
+                    Duration.ofSeconds(10),
+                    1000
             );
 
-            WebElement element = driver.findElement(By.cssSelector("div.broker-list-holder.xteam-list-wrap"));
-            previousAttributeValue = element.getAttribute("data-total-count");
+            List<WebElement> elements = driver.findElements(By.cssSelector("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-1.MuiGrid-grid-sm-1.MuiGrid-grid-md-1.MuiGrid-grid-tablet-1.MuiGrid-grid-lg-1.MuiGrid-grid-xl-1.mui-style-rstqa8"));
+            previousAttributeValue = Integer.toString(elements.size());
 
             int numberOfBrokersOnSearchResult = brokerNames.size();
+
             try {
                 assertEquals("Unexpected number of brokers found for: " + name, 1, numberOfBrokersOnSearchResult);
-
-                WebElement propertiesCount = brokerCard.findElement(By.cssSelector("div.position"));
-                WebElement officeAddress = brokerCard.findElement(By.cssSelector("div.office"));
-                WebElement telGroup = brokerCard.findElement(By.cssSelector("div.tel-group"));
-                java.util.List<WebElement> telNumbers = telGroup.findElements(By.cssSelector("span.tel"));
+                WebElement propertiesCount = brokerCard.findElement(By.cssSelector("a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineHover.mui-style-1ya14h1"));
+                expandDetails.click();
+                WebElement officeAddress = brokerCard.findElement(By.cssSelector("span.MuiTypography-root.MuiTypography-textSmallRegular.mui-style-14x3no9"));
+                WebElement telGroup = brokerCard.findElement(By.cssSelector("div.MuiStack-root.mui-style-1o9h2dc"));
+                java.util.List<WebElement> telNumbers = telGroup.findElements(By.cssSelector("a.MuiTypography-root.MuiTypography-inherit.MuiLink-root.MuiLink-underlineNone.mui-style-1ktzac6"));
 
                 assertEquals("Unexpected number of phone numbers found for: " + name, 2, telNumbers.size());
                 assertTrue("Broker name is not displayed for: " + name, brokerCard.isDisplayed());
                 assertTrue("Office address is not displayed for: " + name, officeAddress.isDisplayed());
                 assertTrue("Properties count is not displayed for: " + name, propertiesCount.isDisplayed());
             } catch (AssertionError e) {
-
                 List<String> failedAssertions = failedBrokersMap.getOrDefault(name, new ArrayList<>());
                 failedAssertions.add(e.getMessage());
                 failedBrokersMap.put(name, failedAssertions);
@@ -110,10 +115,12 @@ public class BrokersPage extends BaseDriverClass {
             clearButton.click();
 
             waitForAttributeValueChangedInElementLocated(
-                    By.cssSelector("div.broker-list-holder.xteam-list-wrap"),
-                    "data-total-count",
-                    previousAttributeValue, timeout,
-                    2000 // Sleep for 3 seconds after the attribute value changes
+                    driver,
+                    By.cssSelector("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-1.MuiGrid-grid-sm-1.MuiGrid-grid-md-1.MuiGrid-grid-tablet-1.MuiGrid-grid-lg-1.MuiGrid-grid-xl-1.mui-style-rstqa8"),
+                    "class",
+                    previousAttributeValue,
+                    Duration.ofSeconds(10),
+                    1000
             );
         }
 
@@ -123,5 +130,7 @@ public class BrokersPage extends BaseDriverClass {
                 logger.info("\t" + failure);
             }
         }
-    }
+        }
+
+
 }

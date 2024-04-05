@@ -78,6 +78,21 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.9.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-testng -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-testng</artifactId>
+			<version>7.16.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-picocontainer</artifactId>
@@ -85,15 +100,35 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.aventstack</groupId>
+			<artifactId>extentreports</artifactId>
+			<version>5.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>tech.grasshopper</groupId>
+			<artifactId>extentreports-cucumber7-adapter</artifactId>
+			<version>1.14.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>tech.grasshopper</groupId>
+			<artifactId>extent-pdf-report</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.13.0</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -102,24 +137,34 @@
 					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>net.masterthought</groupId>
-				<artifactId>maven-cucumber-reporting</artifactId>
-				<version>5.8.1</version>
-				<executions>
-					<execution>
-						<id>execution</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<projectName>Cucumber Page Object Example</projectName>
-							<outputDirectory>target/cucumber-reports/advanced-reports</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
+
+
+<!--			<plugin>-->
+<!--				<groupId>net.masterthought</groupId>-->
+<!--				<artifactId>maven-cucumber-reporting</artifactId>-->
+<!--				<version>5.8.1</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>execution</id>-->
+<!--						<phase>verify</phase>-->
+<!--						<goals>-->
+<!--							<goal>generate</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<projectName>Cucumber Page Object Example</projectName>-->
+<!--							<outputDirectory>target/cucumber-reports/advanced-reports</outputDirectory>-->
+<!--							<jsonFiles>-->
+<!--								<param>**/cucumber-report.json</param>-->
+<!--							</jsonFiles>-->
+<!--							<classificationFiles>-->
+<!--								<param>**/classifications/*.properties</param>-->
+<!--							</classificationFiles>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+
 		</plugins>
 	</build>
 </project>

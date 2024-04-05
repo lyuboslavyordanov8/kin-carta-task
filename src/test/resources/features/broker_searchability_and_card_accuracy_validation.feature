@@ -10,7 +10,6 @@ Feature: Broker searchability and card accuracy validation
 
   Background:
     Given the broker page info is opened
-    And the user expand the brokers list
 
   Scenario: Verify accurate information on each broker card in search result
     Then verify the search results display accurate information on the broker card, confirming it is the only broker listed

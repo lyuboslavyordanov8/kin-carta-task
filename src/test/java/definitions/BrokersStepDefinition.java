@@ -23,11 +23,6 @@ public class BrokersStepDefinition {
         brokersPage.verifyBrokerPageIsOpened();
     }
 
-    @When("the user expand the brokers list")
-    public void theUserExpandTheBrokerList() {
-        brokersPage.expandBrokersList();
-    }
-
 
     @Then("verify the search results display accurate information on the broker card, confirming it is the only broker listed")
     public void verifyTheSearchResultsDisplayAccurateInformationOnTheBrokerCardConfirmingItIsTheOnlyBrokerListed() {
