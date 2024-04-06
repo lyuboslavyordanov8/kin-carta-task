@@ -1,5 +1,8 @@
 package definitions;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.concurrent.TimeUnit;
 
 import io.cucumber.java.After;
@@ -10,6 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
+import javax.imageio.ImageIO;
 
 public class Hooks {
     public static WebDriver driver;
@@ -28,8 +33,33 @@ public class Hooks {
         driver.get("https://www.yavlena.com/broker/");
     }
 
+    public static byte[] takeScreenshot() {
+        try {
+            Robot robot = new Robot();
+            BufferedImage image = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", outputStream);
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @After
-    public void embedScreenshot(Scenario scenario) {
-        driver.quit();
+    public void tearDown(Scenario scenario) {
+
+        if (scenario.isFailed()) {
+            try {
+                final byte[] screenshot = takeScreenshot();
+                scenario.attach(screenshot, "image/png", scenario.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
