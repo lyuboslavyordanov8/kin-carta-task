@@ -137,34 +137,6 @@
 					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
-
-
-
-<!--			<plugin>-->
-<!--				<groupId>net.masterthought</groupId>-->
-<!--				<artifactId>maven-cucumber-reporting</artifactId>-->
-<!--				<version>5.8.1</version>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<id>execution</id>-->
-<!--						<phase>verify</phase>-->
-<!--						<goals>-->
-<!--							<goal>generate</goal>-->
-<!--						</goals>-->
-<!--						<configuration>-->
-<!--							<projectName>Cucumber Page Object Example</projectName>-->
-<!--							<outputDirectory>target/cucumber-reports/advanced-reports</outputDirectory>-->
-<!--							<jsonFiles>-->
-<!--								<param>**/cucumber-report.json</param>-->
-<!--							</jsonFiles>-->
-<!--							<classificationFiles>-->
-<!--								<param>**/classifications/*.properties</param>-->
-<!--							</classificationFiles>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
-
 		</plugins>
 	</build>
 </project>
