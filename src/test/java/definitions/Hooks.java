@@ -3,7 +3,6 @@ package definitions;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.concurrent.TimeUnit;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -12,26 +11,29 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 import javax.imageio.ImageIO;
 
 public class Hooks {
-    public static WebDriver driver;
+    private static ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
+    public static WebDriver getDriver() {
+        return driverThreadLocal.get();
+    }
 
     @Before
-    public void openBrowser() throws Exception {
+    public void openBrowser() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--window-size=1440,768", "--disable-gpu");
-        driver = new ChromeDriver(options);
-        WebDriverManager.chromedriver().clearDriverCache();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
+        WebDriver driver = new ChromeDriver(options);
         driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
         driver.get("https://www.yavlena.com/broker/");
+        driverThreadLocal.set(driver);
     }
+
 
     public static byte[] takeScreenshot() {
         try {
@@ -57,9 +59,6 @@ public class Hooks {
                 e.printStackTrace();
             }
         }
-
-        if (driver != null) {
-            driver.quit();
+            getDriver().quit();
         }
     }
-}

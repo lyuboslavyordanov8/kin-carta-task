@@ -16,8 +16,6 @@ import java.util.List;
 
 public class BrokersPage extends BaseDriverClass {
 
-    SoftAssert softAssert = new SoftAssert();
-    private static final Logger logger = LogManager.getLogger(BrokersPage.class);
     @FindBy(css = "div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-1.MuiGrid-grid-sm-1.MuiGrid-grid-md-1.MuiGrid-grid-tablet-1.MuiGrid-grid-lg-1.MuiGrid-grid-xl-1.mui-style-rstqa8")
     private List<WebElement> brokerList;
 
@@ -38,7 +36,9 @@ public class BrokersPage extends BaseDriverClass {
 
     @FindBy(css = "button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textDarkGray.MuiButton-sizeMedium.MuiButton-textSizeMedium.mui-style-1550dmo")
     private WebElement clearButton;
-    Duration timeout = Duration.ofSeconds(5);
+
+    SoftAssert softAssert = new SoftAssert();
+    private static final Logger logger = LogManager.getLogger(BrokersPage.class);
 
     public BrokersPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -108,7 +108,7 @@ public class BrokersPage extends BaseDriverClass {
                     1000
             );
         }
-        softAssert.assertAll(); // This will ensure all assertions are executed and failures are reported
+        softAssert.assertAll();
     }
 
 }

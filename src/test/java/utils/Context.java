@@ -7,14 +7,13 @@ import pages.BrokersPage;
 import java.time.Duration;
 
 public class Context extends Hooks {
-
-    private BrokersPage brokersPage;
+    private ThreadLocal<BrokersPage> brokersPageThreadLocal = new ThreadLocal<>();
 
     public BrokersPage getBrokersPage() {
-        if (brokersPage == null) {
-            brokersPage = new BrokersPage(driver, new WebDriverWait(driver, Duration.ofSeconds(22)));
+        if (brokersPageThreadLocal.get() == null) {
+            brokersPageThreadLocal.set(new BrokersPage(getDriver(), new WebDriverWait(getDriver(), Duration.ofSeconds(22))));
         }
-        return brokersPage;
+        return brokersPageThreadLocal.get();
     }
 
 }
