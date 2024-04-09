@@ -22,7 +22,7 @@ public class BrokersPage extends BaseDriverClass {
     @FindBy(css = "button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textDarkBlue.MuiButton-sizeMedium.MuiButton-textSizeMedium.mui-style-mc33y5")
     private WebElement expandDetails;
 
-    @FindBy(css = "[class='hide-cookies-message green-btn']")
+    @FindBy(css = "button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeMedium.MuiButton-containedSizeMedium.mui-style-pslrw1")
     private WebElement cookiesAlertAcceptButton;
 
     @FindBy(css = ".MuiTypography-root.MuiTypography-h6.mui-style-crk47i")
@@ -48,7 +48,7 @@ public class BrokersPage extends BaseDriverClass {
 
     public void verifyBrokerPageIsOpened() {
         waitUntilElementVisible(brokerCard);
-        Assert.assertTrue(brokerCard.isDisplayed(),"Broker page is not opened");
+        Assert.assertTrue(brokerCard.isDisplayed(), "Broker page is not opened");
     }
 
     public void handleCookieAlert() {
@@ -59,8 +59,30 @@ public class BrokersPage extends BaseDriverClass {
         }
     }
 
+    public void scrollPageAndLoadAllBrokers() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        int totalScrollDistance = 1300;
+        int numberOfSteps = 22;
+
+        int scrollDistancePerStep = totalScrollDistance / numberOfSteps;
+
+        for (int i = 0; i < numberOfSteps; i++) {
+
+            int scrollTo = scrollDistancePerStep * (i + 1);
+            js.executeScript("window.scrollBy(0, " + scrollTo + ");");
+
+            try {
+                Thread.sleep(700);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void searchForEachBrokerInTheSearchEngineAndVerifyInfoIsDisplayed() {
         String previousAttributeValue = null;
+        scrollPageAndLoadAllBrokers();
 
         for (int i = 0; i < brokerNames.size(); i++) {
             String name = brokerNames.get(i).getText();
