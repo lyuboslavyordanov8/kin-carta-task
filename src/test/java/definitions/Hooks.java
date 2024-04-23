@@ -13,6 +13,11 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+
 
 import javax.imageio.ImageIO;
 
@@ -24,10 +29,29 @@ public class Hooks {
 
     @Before
     public void openBrowser() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--window-size=1440,768", "--disable-gpu");
-        WebDriver driver = new ChromeDriver(options);
+        String browserType = System.getProperty("browserType", "chrome").toLowerCase();
+
+        WebDriver driver;
+        switch (browserType) {
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--window-size=1440,768", "--disable-gpu");
+                driver = new ChromeDriver(chromeOptions);
+                break;
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                driver = new FirefoxDriver(firefoxOptions);
+                break;
+            case "edge":
+                WebDriverManager.edgedriver().setup();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                driver = new EdgeDriver(edgeOptions);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported browser type: " + browserType);
+        }
         driver.manage().deleteAllCookies();
         driver.manage().window().maximize();
         driver.get("https://www.yavlena.com/broker/");
