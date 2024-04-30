@@ -4,17 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
-import utils.BaseDriverClass;
 
 import java.time.Duration;
 import java.util.List;
 
 
-public class BrokersPage extends BaseDriverClass {
+public class BrokersPage extends BasePage {
 
     @FindBy(css = "div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-1.MuiGrid-grid-sm-1.MuiGrid-grid-md-1.MuiGrid-grid-tablet-1.MuiGrid-grid-lg-1.MuiGrid-grid-xl-1.mui-style-rstqa8")
     private List<WebElement> brokerList;
@@ -40,9 +37,8 @@ public class BrokersPage extends BaseDriverClass {
     SoftAssert softAssert = new SoftAssert();
     private static final Logger logger = LogManager.getLogger(BrokersPage.class);
 
-    public BrokersPage(WebDriver driver, WebDriverWait wait) {
-        super(driver, wait);
-        PageFactory.initElements(driver, this);
+    public BrokersPage(WebDriver driver) {
+        super(driver);
     }
 
 

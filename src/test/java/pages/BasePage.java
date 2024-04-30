@@ -1,22 +1,29 @@
-package utils;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.ConfigLoader;
 
 import java.time.Duration;
 import java.util.List;
 
-public class BaseDriverClass {
-    public WebDriver driver;
-    private static WebDriverWait wait;
+public class BasePage {
+    protected WebDriver driver;
+    protected WebDriverWait wait;
 
-    public BaseDriverClass(WebDriver driver, WebDriverWait wait) {
+    public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = wait;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        PageFactory.initElements(driver, this);
+    }
+
+    public void load(String endPoint){
+        driver.get(ConfigLoader.getInstance().getBaseUrl() + endPoint);
     }
 
     protected void waitUntilElementVisible(WebElement element) {
