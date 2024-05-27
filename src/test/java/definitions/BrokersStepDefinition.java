@@ -1,7 +1,6 @@
 package definitions;
 
 import constants.MyConstants;
-import context.TestContext;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import pages.BrokersPage;
@@ -11,8 +10,8 @@ public class BrokersStepDefinition {
 
     BrokersPage brokersPage;
 
-    public BrokersStepDefinition(TestContext context) {
-        brokersPage = PageFactoryManager.getBrokersPage(context.driver);
+    public BrokersStepDefinition(MyHooks hooks) {
+        brokersPage = PageFactoryManager.getBrokersPage(hooks.getDriver());
     }
 
     @Given("the broker page info is opened")

@@ -1,6 +1,5 @@
 package definitions;
 
-import context.TestContext;
 import factory.DriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -16,18 +15,17 @@ import java.io.ByteArrayOutputStream;
 
 public class MyHooks {
     private WebDriver driver;
-    private final TestContext context;
     private static final Logger logger = LogManager.getLogger(MyHooks.class);
 
-    public MyHooks(TestContext context) {
-        this.context = context;
-    }
     @Before
     public void before(Scenario scenario) {
         logger.info("BEFORE: THREAD ID : " + Thread.currentThread().threadId() + "," +
                 "SCENARIO NAME: " + scenario.getName());
         driver = DriverFactory.initializeDriver(System.getProperty("browser", "chrome"));
-        context.driver = driver;
+    }
+
+    public WebDriver getDriver(){
+        return driver;
     }
 
     public static byte[] takeScreenshot() {
